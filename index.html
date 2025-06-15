@@ -1,11 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlRoot">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KWC App</title>
+    <style>
+        :root {
+            --primary-color: #F98125;
+            --secondary-color: #2C599D;
+            --font-family: Arial, sans-serif;
+        }
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            transition: direction 0.3s;
+        }
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        #languageToggle {
+            margin: 0 10px;
+        }
+        #languageToggle button {
+            background: none;
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #languageToggle button.active {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+        #logo {
+            max-width: 200px;
+            height: auto;
+        }
+        main {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        p.description {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        #slogan {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        #app-icon {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        #googlePlayBadge {
+            max-width: 200px;
+            height: auto;
+            margin-top: 10px;
+        }
+        footer {
+            margin-top: auto;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello</h1>
+    <header>
+        <div id="languageToggle">
+            <button id="btn-en" class="active">EN</button>
+            <button id="btn-ar">ع</button>
+        </div>
+    </header>
+    <main>
+        <div>
+      <br/><br/><br/><br/>
+        </div>
+        <img id="logo" src="logo_gradent.png" alt="KWC Logo">
+
+        <img id="slogan" src="slogen_color.png" alt="Slogan">
+        <p class="description" id="description">
+            KWC App is designed to help you track your wellness and health. Explore features, tips, and insights to improve your daily routine and well-being.
+        </p>
+        <!-- App icon: replace 'app-icon.png' with your app icon file -->
+        <img id="app-icon" src="app-icon.png" alt="App Icon" onerror="this.style.display='none'">
+        <div>
+            <a id="playStoreLink" href="https://play.google.com/store/apps/details?id=YOUR_APP_ID" target="_blank">
+                <img id="googlePlayBadge" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play">
+            </a>
+        </div>
+    </main>
+    <footer id="footer">
+        © <span id="year"></span> KWC App. All rights reserved.
+    </footer>
+
+    <script>
+        const content = {
+            en: {
+                title: "KWC App",
+                description: "KWC App is designed to help you track your wellness and health. Explore features, tips, and insights to improve your daily routine and well-being.",
+                playLink: "https://play.google.com/store/apps/details?id=com.health.kwc"
+            },
+            ar: {
+                title: "تطبيق KWC",
+                description: "تم تصميم تطبيق KWC لمساعدتك في تتبع صحتك وعافيتك. استكشف الميزات والنصائح والرؤى لتحسين روتينك اليومي ورفاهيتك.",
+                playLink: "https://play.google.com/store/apps/details?id=com.health.kwc"
+            }
+        };
+
+        const htmlRoot = document.getElementById('htmlRoot');
+        const btnEn = document.getElementById('btn-en');
+        const btnAr = document.getElementById('btn-ar');
+        const titleEl = document.getElementById('title');
+        const descEl = document.getElementById('description');
+        const playLinkEl = document.getElementById('playStoreLink');
+        const yearEl = document.getElementById('year');
+
+        function setLanguage(lang) {
+            // Update active button
+            if (lang === 'en') {
+                btnEn.classList.add('active');
+                btnAr.classList.remove('active');
+            } else {
+                btnAr.classList.add('active');
+                btnEn.classList.remove('active');
+            }
+            // Update content
+            titleEl.textContent = content[lang].title;
+            descEl.textContent = content[lang].description;
+            playLinkEl.href = content[lang].playLink;
+            // Direction and lang attribute
+            if (lang === 'ar') {
+                htmlRoot.setAttribute('lang', 'ar');
+                document.body.setAttribute('dir', 'rtl');
+                document.body.style.textAlign = 'right';
+            } else {
+                htmlRoot.setAttribute('lang', 'en');
+                document.body.setAttribute('dir', 'ltr');
+                document.body.style.textAlign = 'center';
+            }
+        }
+
+        btnEn.addEventListener('click', () => setLanguage('en'));
+        btnAr.addEventListener('click', () => setLanguage('ar'));
+
+        // Initialize
+        setLanguage('en');
+        // Set current year in footer
+        yearEl.textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
