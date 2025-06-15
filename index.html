@@ -56,10 +56,16 @@
             width: 100%;
             text-align: center;
         }
-        h1 {
+        /* Remove or comment out the h1 styling if not used */
+        /* h1 {
             color: var(--primary-color);
             font-size: 2.5em;
             margin-bottom: 10px;
+        } */
+        #titleLogo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
         }
         p.description {
             font-size: 1.1em;
@@ -93,26 +99,31 @@
 </head>
 <body>
     <header>
+        <!-- You may keep or remove this logo in header as needed -->
+        <img id="logo" src="logo_gradent.png" alt="KWC Logo">
         <div id="languageToggle">
             <button id="btn-en" class="active">EN</button>
             <button id="btn-ar">ع</button>
         </div>
     </header>
     <main>
-        <div>
-      <br/><br/><br/><br/>
-        </div>
-        <img id="logo" src="logo_gradent.png" alt="KWC Logo">
+        <!-- Replace the text title with the logo image -->
+        <img id="titleLogo" src="logo_gradent.png" alt="KWC Logo">
 
         <img id="slogan" src="slogen_color.png" alt="Slogan">
+
         <p class="description" id="description">
             KWC App is designed to help you track your wellness and health. Explore features, tips, and insights to improve your daily routine and well-being.
         </p>
+
         <!-- App icon: replace 'app-icon.png' with your app icon file -->
         <img id="app-icon" src="app-icon.png" alt="App Icon" onerror="this.style.display='none'">
+
         <div>
-            <a id="playStoreLink" href="https://play.google.com/store/apps/details?id=YOUR_APP_ID" target="_blank">
-                <img id="googlePlayBadge" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play">
+            <a id="playStoreLink" href="https://play.google.com/store/apps/details?id=com.health.kwc" target="_blank">
+                <img id="googlePlayBadge"
+                     src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+                     alt="Get it on Google Play">
             </a>
         </div>
     </main>
@@ -123,12 +134,11 @@
     <script>
         const content = {
             en: {
-                title: "KWC App",
+                // title is now an image, so we won't set textContent here
                 description: "KWC App is designed to help you track your wellness and health. Explore features, tips, and insights to improve your daily routine and well-being.",
                 playLink: "https://play.google.com/store/apps/details?id=com.health.kwc"
             },
             ar: {
-                title: "تطبيق KWC",
                 description: "تم تصميم تطبيق KWC لمساعدتك في تتبع صحتك وعافيتك. استكشف الميزات والنصائح والرؤى لتحسين روتينك اليومي ورفاهيتك.",
                 playLink: "https://play.google.com/store/apps/details?id=com.health.kwc"
             }
@@ -137,7 +147,6 @@
         const htmlRoot = document.getElementById('htmlRoot');
         const btnEn = document.getElementById('btn-en');
         const btnAr = document.getElementById('btn-ar');
-        const titleEl = document.getElementById('title');
         const descEl = document.getElementById('description');
         const playLinkEl = document.getElementById('playStoreLink');
         const yearEl = document.getElementById('year');
@@ -152,7 +161,6 @@
                 btnEn.classList.remove('active');
             }
             // Update content
-            titleEl.textContent = content[lang].title;
             descEl.textContent = content[lang].description;
             playLinkEl.href = content[lang].playLink;
             // Direction and lang attribute
