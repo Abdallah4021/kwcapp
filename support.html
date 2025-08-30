@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KWC App — Support</title>
+  <style>
+    :root { --primary:#F98125; --secondary:#2C599D; --font: Arial, sans-serif; }
+    body { font-family:var(--font); margin:0; padding:20px; background:#f7f7f7; color:#222; }
+    header { display:flex; align-items:center; justify-content:space-between; max-width:1000px; margin:0 auto 18px; }
+    a.logo { display:flex; align-items:center; gap:8px; text-decoration:none; color:inherit; }
+    main { max-width:920px; margin:0 auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+    h1 { color:var(--primary); margin-top:0; }
+    .columns { display:flex; gap:20px; flex-wrap:wrap; }
+    .col { flex:1 1 300px; min-width:260px; }
+    .contact-card { padding:12px; background:#fafafa; border-radius:8px; border:1px solid #eee; }
+    label{display:block;margin-top:10px;font-weight:600;}
+    input, textarea { width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; margin-top:6px; }
+    .small { font-size:0.9em; color:#555; }
+    .actions { margin-top:14px; display:flex; gap:10px; justify-content:flex-end; }
+    .btn { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; }
+    .btn-primary { background:var(--secondary); color:#fff; }
+    footer { margin-top:18px; text-align:center; color:#666; font-size:0.9em; }
+    @media(max-width:700px){ .columns{flex-direction:column;} }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">
+      <img src="logo_gradent.png" alt="KWC Logo" style="max-height:48px;">
+      <strong>KWC App</strong>
+    </a>
+    <div>
+      <a href="/" style="margin-right:12px;color:var(--secondary);text-decoration:none;">Home</a>
+      <!-- <a href="https://github.com/<YOUR-ORG-or-USER>/<YOUR-REPO>/issues" target="_blank" style="color:var(--secondary);text-decoration:none;">GitHub Issues</a> -->
+    </div>
+  </header>
+
+  <main>
+    <h1>Support</h1>
+    <p class="small">Need help with KWC App? Use the contact form to send details, or open a GitHub issue if you prefer. For urgent matters, email <strong>lythkaileh@kwcapp.com</strong>.</p>
+
+    <div class="columns">
+      <div class="col">
+        <div class="contact-card">
+          <h3>Contact form</h3>
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="Your name">
+
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com">
+
+          <label for="subject">Subject</label>
+          <input id="subject" type="text" placeholder="Short summary">
+
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Describe the problem or question"></textarea>
+
+          <!-- <label style="margin-top:8px;"><input id="includeSys" type="checkbox"> Include system info</label> -->
+
+          <div class="actions">
+            <button class="btn btn-primary" id="sendBtn">Send</button>
+          </div> 
+          <br/>
+
+          <!-- <p class="small" style="margin-top:10px;">If your browser blocks mailto: links, you can open our GitHub issues page: <a href="https://github.com/<YOUR-ORG-or-USER>/<YOUR-REPO>/issues/new" target="_blank">Create issue on GitHub</a>.</p> -->
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="contact-card">
+          <h3>Other support options</h3>
+          <p class="small"><strong>Email:</strong> lythkaileh@kwcapp.com</p>
+          <!-- <p class="small"><strong>Report bugs:</strong> Use GitHub issues — include screenshots, device model, and steps to reproduce.</p> -->
+          <!-- <p class="small"><strong>Account deletion:</strong> To request account deletion, go to Settings → Account → Delete Account in the app, or use this link: <a href="/account/delete">Account deletion page</a> (if you handle deletion via web).</p> -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> KWC App — Support
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim() || 'KWC App Support';
+      const message = document.getElementById('message').value.trim();
+      const includeSys = true;
+
+      if (!email || !message) {
+        alert('Please include your email and a message.');
+        return;
+      }
+
+      const sys = includeSys ? (
+        '\n\n---\nSystem info:\n' +
+        `User Agent: ${navigator.userAgent}\n` +
+        `Platform: ${navigator.platform}\n` +
+        `Language: ${navigator.language}\n` +
+        `Page: ${location.href}\n`
+      ) : '';
+
+      const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}${sys}`;
+
+      const supportEmail = 'lythkaileh@kwcapp.com'; // change to your real support email
+      const mailto = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      // Redirect to mailto
+      window.location.href = mailto;
+    });
+  </script>
+</body>
+</html>

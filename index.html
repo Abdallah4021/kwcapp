@@ -56,12 +56,6 @@
             width: 100%;
             text-align: center;
         }
-        /* Remove or comment out the h1 styling if not used */
-        /* h1 {
-            color: var(--primary-color);
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        } */
         #titleLogo {
             max-width: 200px;
             height: auto;
@@ -95,19 +89,90 @@
             color: #777;
             font-size: 0.9em;
         }
+
+        /* Support floating button + modal */
+        .support-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--secondary-color);
+            color: #fff;
+            border: none;
+            padding: 12px 14px;
+            border-radius: 28px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+            cursor: pointer;
+            z-index: 1200;
+            font-weight: bold;
+        }
+        .support-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1300;
+        }
+        .support-modal {
+            background: #fff;
+            width: 96%;
+            max-width: 520px;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .support-modal h2 { margin-top: 0; color: var(--primary-color); }
+        .support-modal label { display:block; margin-top:10px; font-weight:600; }
+        .support-modal input[type="text"],
+        .support-modal input[type="email"],
+        .support-modal textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-top: 6px;
+            font-family: inherit;
+        }
+        .support-modal textarea { min-height: 120px; resize: vertical; }
+        .support-actions {
+            display:flex;
+            gap:8px;
+            justify-content: flex-end;
+            margin-top:12px;
+        }
+        .btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary { background: var(--secondary-color); color:#fff; }
+        .btn-ghost { background: transparent; border: 1px solid #ccc; }
+
+        .support-footer-note { font-size: 0.85em; color:#666; margin-top:8px; }
+
+        @media (max-width: 600px) {
+            .support-modal { padding: 14px; }
+            .support-btn { right: 12px; bottom: 12px; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <!-- You may keep or remove this logo in header as needed -->
         <img id="logo" src="logo_gradent.png" alt="KWC Logo">
-        <div id="languageToggle">
-            <button id="btn-en" class="active">EN</button>
-            <button id="btn-ar">ع</button>
+        <div style="display:flex; align-items:center;">
+            <a href="support.html" id="supportLink" style="margin-right:12px; color:var(--secondary-color); text-decoration:none; font-weight:600;">
+                Support
+            </a>
+            <div id="languageToggle">
+                <button id="btn-en" class="active">EN</button>
+                <button id="btn-ar">ع</button>
+            </div>
         </div>
     </header>
+
     <main>
-        <!-- Replace the text title with the logo image -->
         <img id="titleLogo" src="logo_gradent.png" alt="KWC Logo">
 
         <img id="slogan" src="slogen_color.png" alt="Slogan">
@@ -116,7 +181,6 @@
             KWC App is designed to help you track your wellness and health. Explore features, tips, and insights to improve your daily routine and well-being.
         </p>
 
-        <!-- App icon: replace 'app-icon.png' with your app icon file -->
         <img id="app-icon" src="app-icon.png" alt="App Icon" onerror="this.style.display='none'">
 
         <div>
@@ -127,20 +191,65 @@
             </a>
         </div>
     </main>
+
     <footer id="footer">
         © <span id="year"></span> KWC App. All rights reserved.
     </footer>
 
+    <!-- Floating Support button -->
+    <button class="support-btn" id="openSupportBtn">Support</button>
+
+    <!-- Modal -->
+    <div class="support-modal-backdrop" id="supportBackdrop" role="dialog" aria-hidden="true">
+        <div class="support-modal" role="document" aria-labelledby="supportTitle">
+            <h2 id="supportTitle">Contact Support</h2>
+
+            <div id="supportFormContainer">
+                <label for="supportName">Name</label>
+                <input id="supportName" type="text" placeholder="Your name">
+
+                <label for="supportEmail">Email</label>
+                <input id="supportEmail" type="email" placeholder="you@example.com">
+
+                <label for="supportSubject">Subject</label>
+                <input id="supportSubject" type="text" placeholder="Short summary">
+
+                <label for="supportMessage">Message</label>
+                <textarea id="supportMessage" placeholder="Describe your issue or question"></textarea>
+
+                <label style="margin-top:8px;">
+                    <input type="checkbox" id="includeSys"> Include system info (user agent, page)
+                </label>
+
+                <div class="support-footer-note" id="supportNote">
+                    If you prefer, open our GitHub issues page or send an email to <strong>support@kwcapp.com</strong>.
+                </div>
+
+                <div class="support-actions">
+                    <button class="btn btn-ghost" id="closeSupport">Cancel</button>
+                    <button class="btn btn-primary" id="sendSupport">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const content = {
             en: {
-                // title is now an image, so we won't set textContent here
                 description: "KWC App is designed to help you track your wellness and health. Explore features, tips, and insights to improve your daily routine and well-being.",
-                playLink: "https://play.google.com/store/apps/details?id=com.health.kwc"
+                playLink: "https://play.google.com/store/apps/details?id=com.health.kwc",
+                support: {
+                    title: "Contact Support",
+                    note: "If you prefer, open our GitHub issues page or send an email to support@kwcapp.com."
+                }
             },
             ar: {
                 description: "تم تصميم تطبيق KWC لمساعدتك في تتبع صحتك وعافيتك. استكشف الميزات والنصائح والرؤى لتحسين روتينك اليومي ورفاهيتك.",
-                playLink: "https://play.google.com/store/apps/details?id=com.health.kwc"
+                playLink: "https://play.google.com/store/apps/details?id=com.health.kwc",
+                support: {
+                    title: "اتصل بالدعم",
+                    note: "إذا رغبت، افتح صفحة القضايا على GitHub أو أرسل بريدًا إلى support@kwcapp.com."
+                }
             }
         };
 
@@ -151,8 +260,13 @@
         const playLinkEl = document.getElementById('playStoreLink');
         const yearEl = document.getElementById('year');
 
+        const openSupportBtn = document.getElementById('openSupportBtn');
+        const supportBackdrop = document.getElementById('supportBackdrop');
+        const closeSupport = document.getElementById('closeSupport');
+        const sendSupport = document.getElementById('sendSupport');
+        const supportNote = document.getElementById('supportNote');
+
         function setLanguage(lang) {
-            // Update active button
             if (lang === 'en') {
                 btnEn.classList.add('active');
                 btnAr.classList.remove('active');
@@ -160,10 +274,10 @@
                 btnAr.classList.add('active');
                 btnEn.classList.remove('active');
             }
-            // Update content
             descEl.textContent = content[lang].description;
             playLinkEl.href = content[lang].playLink;
-            // Direction and lang attribute
+            supportNote.textContent = content[lang].support.note;
+
             if (lang === 'ar') {
                 htmlRoot.setAttribute('lang', 'ar');
                 document.body.setAttribute('dir', 'rtl');
@@ -178,9 +292,63 @@
         btnEn.addEventListener('click', () => setLanguage('en'));
         btnAr.addEventListener('click', () => setLanguage('ar'));
 
-        // Initialize
+        // Support modal behavior
+        openSupportBtn.addEventListener('click', () => {
+            supportBackdrop.style.display = 'flex';
+            supportBackdrop.setAttribute('aria-hidden', 'false');
+        });
+        closeSupport.addEventListener('click', () => {
+            supportBackdrop.style.display = 'none';
+            supportBackdrop.setAttribute('aria-hidden', 'true');
+        });
+        supportBackdrop.addEventListener('click', (e) => {
+            if (e.target === supportBackdrop) {
+                supportBackdrop.style.display = 'none';
+                supportBackdrop.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Send handler - uses mailto: and falls back to GitHub issues page
+        sendSupport.addEventListener('click', () => {
+            const name = document.getElementById('supportName').value.trim();
+            const email = document.getElementById('supportEmail').value.trim();
+            const subj = document.getElementById('supportSubject').value.trim() || 'KWC App Support';
+            const msg = document.getElementById('supportMessage').value.trim();
+            const includeSys = document.getElementById('includeSys').checked;
+
+            if (!email || !msg) {
+                alert('Please include your email and a message.');
+                return;
+            }
+
+            const sys = includeSys ? (
+                '\n\n---\nSystem info:\n' +
+                `User Agent: ${navigator.userAgent}\n` +
+                `Platform: ${navigator.platform}\n` +
+                `Language: ${navigator.language}\n` +
+                `Current page: ${location.href}\n`
+            ) : '';
+
+            const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}${sys}`;
+
+            // Prefer mailto
+            const supportEmail = 'support@kwcapp.com'; // update to your real support email
+            const mailto = `mailto:${supportEmail}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+
+            // Some browsers block long mailto; try it and if it fails, open GitHub issues page
+            try {
+                window.location.href = mailto;
+                // close modal briefly
+                supportBackdrop.style.display = 'none';
+                supportBackdrop.setAttribute('aria-hidden', 'true');
+            } catch (e) {
+                // fallback: open GitHub issues page
+                window.open('https://github.com/<YOUR-ORG-or-USER>/<YOUR-REPO>/issues/new', '_blank');
+            }
+        });
+
+        // Initialize language & year
         setLanguage('en');
-        // Set current year in footer
         yearEl.textContent = new Date().getFullYear();
     </script>
 </body>
